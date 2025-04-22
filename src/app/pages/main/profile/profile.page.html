@@ -1,0 +1,81 @@
+<app-header [isModal]="false" ></app-header>
+
+<ion-content>
+
+  <ion-refresher slot="fixed" >
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+
+  <!-- ====== Usuarios ====== -->
+  <ion-list *ngIf="!loading">
+  
+      <ion-item *ngFor="let u of users">
+       <ion-icon slot="start" name="person-circle-outline"></ion-icon>
+        <ion-label>
+          <p>Usuario</p>
+          {{u.name}}
+        </ion-label>
+     
+   
+     
+        <ion-buttons slot="end">
+          <ion-button (click)="openNotificationForm(u)">
+            <ion-icon slot="icon-only" name="chatbox-ellipses-outline"></ion-icon>
+          </ion-button>
+          <ion-button (click)="subscribeToGeneralTopic(u)" *ngIf="u.token">
+            <ion-icon slot="icon-only" name="globe-outline"></ion-icon>
+          </ion-button>
+          <ion-button (click)="subscribeToCarTopic(u)" *ngIf="u.token">
+            <ion-icon slot="icon-only" name="car-outline"></ion-icon>
+          </ion-button>
+          <ion-button (click)="subscribeToBoatTopic(u)" *ngIf="u.token">
+            <ion-icon slot="icon-only" name="boat-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+
+      <ion-buttons slot="start">
+        <ion-button color="warning" expand="full" (click)="enviarNotificacionNivel(2)">
+          <ion-icon slot="start" name="add"></ion-icon>
+          Nivel 2
+        </ion-button>
+        <ion-button color="warning" expand="full" (click)="enviarNotificacionNivel(3)">
+          <ion-icon slot="start" name="add"></ion-icon>
+          Nivel 3
+        </ion-button>
+      </ion-buttons>
+
+  
+  </ion-list>
+
+
+
+
+<!-- ====== Loading ====== -->
+  <ion-list *ngIf="loading">
+
+      <ion-item *ngFor="let p of [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]">
+        <ion-label>
+       <div> <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text> </div>
+       <div> <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text> </div>
+        </ion-label> 
+      </ion-item>
+
+  
+  </ion-list>
+
+   <!-- ====== Sin usuarios disponibles ====== -->
+  <div *ngIf="!loading && !users.length" class="empty">
+    <ion-icon  name="shield-outline"></ion-icon>
+    <h3>No hay usuarios disponibles</h3>
+  </div>
+
+  <!-- ====== Global ====== -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
+    <ion-fab-button color="dark" (click)="openNotificationForm()">
+      <ion-icon name="globe-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

@@ -1,0 +1,39 @@
+[
+    {
+        "id_product": 1,
+        "img": "assets/images/sportclub.png",
+        "name": "SportClub",
+        "discount": 20,
+        "coupon": "SPORTCLUB2024",
+        "vigencia": "18/09/2024 a 10/10/2024"
+    },
+   
+ 
+    {
+        "id_product": 2,
+        "img": "assets/images/04.Naranja-X.svg",
+        "name": "NaranjaX",
+        "discount": 50,
+        "coupon": "NARANJAX2024",
+        "vigencia": "18/09/2024 a 10/10/2024"
+    },
+    {
+        "id_product": 3,
+        "img": "assets/images/ciudad_universitaria.png",
+        "name": "Ciudad Universitaria",
+        "discount": 30,
+        "coupon": "CUNIVERSITARIA2024",
+        "vigencia": "18/09/2024 a 10/10/2024"
+    }
+    , 
+    {
+        "id_product": 4,
+        "img": "assets/images/cata.png",
+        "name": "Cata Internacional",
+        "discount": 10,
+        "coupon": "CATA2024",
+        "vigencia": "18/09/2024 a 10/10/2024"
+    }
+]
+
+

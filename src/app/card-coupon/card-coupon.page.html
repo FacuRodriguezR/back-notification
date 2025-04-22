@@ -1,0 +1,25 @@
+
+<app-header backButton="/main/home" title="Cupon"></app-header>
+
+<ion-content [fullscreen]="true">
+  <div class="discount-title">
+    
+    <h2>Descuentos</h2>
+  </div>
+
+<div class="ion-text-center ion-margin" *ngFor="let item of coupons">
+
+  <ion-card class="ion-padding">
+    <div class="discount-image ion-padding ">
+  
+      <img [src]="item.img" alt="">
+    </div>
+    
+    <qrcode [qrdata]="QRCode" [width]="256" [errorCorrectionLevel]="'M'" class="ion-margin"></qrcode>
+    <ion-chip color="light" mode="ios" outline="true" class="ion-margin" (click)="copyToClipboard(item.coupon)">
+      <ion-label>{{item.coupon}}</ion-label>
+    </ion-chip>
+  </ion-card>
+</div>
+</ion-content>
+

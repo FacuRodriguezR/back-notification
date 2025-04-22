@@ -1,0 +1,88 @@
+.avatarName{
+    --background: #41627c;
+    padding: 10px 20px;
+    border:1px solid #5682a3;
+    border-radius: 20px;
+    box-shadow: 1px 1px 12px #000000;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    margin: 0;
+  }
+  
+  .name-points{
+    font-family: 'montserrat';
+  width: 80%;
+  strong{
+    color: #fff;
+  }
+  p{
+    color: #c1d5e4;
+  }
+  .name{
+    text-align: left;
+  }
+  
+    .point-level{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+  
+        .price{
+            font-size: 25px;
+        }
+  
+    }
+  }
+  
+  .card-options {
+    --background: #41627c;
+    border:1px solid #5682a3;
+    border-radius: 20px;
+    box-shadow: 1px 1px 12px #000000;
+    margin: 0;
+    ion-icon{
+        color: #fff;
+        font-size: 30px;
+    }
+    p{
+        color: #ffffff;
+        font-family: 'montserrat';
+        font-weight: 500;
+        font-size: 12px;
+    }
+  }
+  
+  .container-swiper{
+    margin-top: 20px;
+    height: 22vh;
+  
+    p{
+        font-family: 'Montserrat';
+        font-weight: 600;
+    }
+  
+    swiper-container{
+        swiper-slide{
+           
+            height: 20vh;
+            text-align: center;
+            // width: 200px;
+            background-color: #ffffff;
+            
+            border-radius: 10px;
+            text-align: center;
+            align-content: center;
+            
+            img{
+                width: 310px;
+                height: auto;
+                // border-radius: 15px;
+                // box-shadow: 2px 2px 5px#646464;
+            }
+        }
+    }
+  }

@@ -1,0 +1,91 @@
+<app-header title="Home"></app-header>
+
+
+
+<ion-content *ngIf="user">
+  <div class="points ion-text-center ion-margin">
+
+    <ion-card class="avatarName">
+      <ion-avatar>
+        <img src="/assets/images/colapinto2.png" />
+      </ion-avatar>
+      <div class="name-points">
+        <div class="name">
+          <p>Hola <strong>{{userName}}</strong></p>
+        </div>
+        <div class="point-level">
+          <p>Puntos: <strong class="price">{{user.points}}</strong></p>
+          <p>Nivel: <strong>{{user.level}}</strong></p>
+        </div>
+      </div>
+    </ion-card>
+  
+  </div>
+
+  <div class="container-swiper ion-margin">
+    <p>Cupones Destacados</p>
+    <swiper-container [modules]="swiperModules" [slidesPerView]="1.1" [initialSlide]="1" [autoplay]="false"
+      [spaceBetween]="15">
+      <swiper-slide *ngFor="let coupon of coupons" (click)="onSlideClick(coupon)">
+        <img [src]="coupon.img" alt="" class="ion-padding">
+      </swiper-slide>
+    </swiper-container>
+  </div>
+ <br>
+
+  <div class="menu ion-margin">
+
+    <ion-card class="card-options">
+      <ion-card-content>
+        <ion-grid class="ion-text-center">
+          <!-- Primera fila de iconos -->
+          <ion-row>
+            <ion-col >
+              <ion-icon name="pricetag-outline"></ion-icon>
+              <p>Mis <br> descuentos</p>
+            </ion-col>
+            <ion-col [routerLink]="['/sucursales']" >
+              <ion-icon name="location-outline"></ion-icon>
+              <p>Buscar <br> locales</p>
+            </ion-col>
+            <ion-col>
+              <ion-icon name="person-outline" [routerLink]="['/profile']" ></ion-icon>
+              <p>Beneficios AutoShop</p>
+            </ion-col>
+          
+          </ion-row>
+
+          <!-- Segunda fila de iconos -->
+          <ion-row>
+
+            <ion-col >
+              <ion-icon name="storefront-outline"></ion-icon>
+              <p>Tienda <br> Autoshop</p>
+            </ion-col>
+           
+            <ion-col>
+              <ion-icon name="car-sport-outline" routerLink="/add-update-car" routerLinkActive="router-link-active" ></ion-icon>
+              <p>Ir a <br> Taller</p>
+            </ion-col>
+         
+            <ion-col (click)="signOut()">
+              <ion-icon name="ellipsis-horizontal-outline" ></ion-icon>
+              <p>Ver más opciones</p>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  
+   <div class="container-swiper ion-margin">
+    <p>Próximos eventos</p>
+    <swiper-container [modules]="swiperModules" [slidesPerView]="2.1" [initialSlide]="1" [autoplay]="false"
+      [spaceBetween]="15">
+      <swiper-slide *ngFor="let event of events" >
+        <img [src]="event.img" alt="" class="ion-padding">
+      </swiper-slide>
+    </swiper-container>
+  </div> 
+  <br>
+</ion-content>
