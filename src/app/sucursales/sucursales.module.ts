@@ -16,9 +16,9 @@ import { SharedModule } from '../shared/shared.module';
     FormsModule,
     IonicModule,
     SucursalesPageRoutingModule,
-    SharedModule
+    SharedModule,
   ],
   declarations: [SucursalesPage],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class SucursalesPageModule {}

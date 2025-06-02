@@ -65,7 +65,8 @@ export class ProfilePage implements OnInit {
           name: 'body',
           type: 'textarea',
           placeholder: 'Contenido'
-        }
+        },
+        
       ],
 
       buttons: [

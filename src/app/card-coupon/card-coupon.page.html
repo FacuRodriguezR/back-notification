@@ -14,8 +14,15 @@
   
       <img [src]="item.img" alt="">
     </div>
+
     
     <qrcode [qrdata]="QRCode" [width]="256" [errorCorrectionLevel]="'M'" class="ion-margin"></qrcode>
+
+    <div class="ion-padding">
+      <p class="discount">{{item.discount}}% OFF</p>
+      <h2 class="current">Vigente desde {{item.vigencia}}</h2>
+    </div>
+
     <ion-chip color="light" mode="ios" outline="true" class="ion-margin" (click)="copyToClipboard(item.coupon)">
       <ion-label>{{item.coupon}}</ion-label>
     </ion-chip>

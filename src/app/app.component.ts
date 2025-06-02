@@ -1,12 +1,16 @@
 import { Component, inject } from '@angular/core';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { register } from 'swiper/element/bundle';
-import { ActionPerformed, PushNotificationSchema, PushNotifications, Token } from '@capacitor/push-notifications';
+import {
+  ActionPerformed,
+  PushNotificationSchema,
+  PushNotifications,
+  Token,
+} from '@capacitor/push-notifications';
 import { Platform } from '@ionic/angular';
 import { UtilsService } from './services/utils.service';
 
 register();
-
 
 @Component({
   selector: 'app-root',
@@ -16,7 +20,7 @@ register();
 export class AppComponent {
   constructor(private platform: Platform) {
     this.showSplash();
-    if(this.platform.is('capacitor')) this.initPush();
+    if (this.platform.is('capacitor')) this.initPush();
   }
 
   utilsSvc = inject(UtilsService);
@@ -39,7 +43,7 @@ export class AppComponent {
     // On success, we should be able to receive notifications
     PushNotifications.addListener('registration', (token: Token) => {
       console.log('Push registration success, token: ' + token.value);
-      localStorage.setItem('token', token.value)
+      localStorage.setItem('token', token.value);
     });
 
     // Some issue with our setup and push will not work
@@ -48,23 +52,32 @@ export class AppComponent {
     });
 
     // Show us the notification payload if the app is open on our device
-    PushNotifications.addListener('pushNotificationReceived', (notification: PushNotificationSchema) => {
-      console.log('Push received: ' + JSON.stringify(notification));
-      this.utilsSvc.presentAlert({
-        header: notification.title,
-        message: notification.body
-      });
-    });
+    PushNotifications.addListener(
+      'pushNotificationReceived',
+      (notification: PushNotificationSchema) => {
+        console.log('Push received: ' + JSON.stringify(notification));
+
+        // Mostrar alerta (opcional)
+        this.utilsSvc.presentAlert({
+          header: notification.title,
+          message: notification.body,
+        });
+
+        // Guardar notificación
+        this.utilsSvc.storeNotification(notification); // ⚠️ Método nuevo que creamos abajo
+      }
+    );
 
     // Method called when tapping on a notification
-    PushNotifications.addListener('pushNotificationActionPerformed', (notification: ActionPerformed) => {
-      console.log('Push action performed: ' + JSON.stringify(notification));
-    });
+    PushNotifications.addListener(
+      'pushNotificationActionPerformed',
+      (notification: ActionPerformed) => {
+        console.log('Push action performed: ' + JSON.stringify(notification));
+      }
+    );
   }
 
-  
-
-  async showSplash(){
+  async showSplash() {
     await SplashScreen.show({
       showDuration: 2000,
       autoHide: true,

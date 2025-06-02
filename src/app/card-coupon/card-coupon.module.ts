@@ -17,8 +17,8 @@ import { SharedModule } from '../shared/shared.module';
     IonicModule,
     CardCouponPageRoutingModule,
     QRCodeModule,
-    SharedModule
+    SharedModule,
   ],
-  declarations: [CardCouponPage]
+  declarations: [CardCouponPage],
 })
 export class CardCouponPageModule {}

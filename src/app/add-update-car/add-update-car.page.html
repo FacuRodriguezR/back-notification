@@ -1,13 +1,27 @@
 <app-header title="Home" backButton="/main/home"></app-header>
 
 <ion-content [fullscreen]="true">
-  
+  <h2 class="ion-padding">Tus vehiculos</h2>
+  <h2 class="ion-padding">No tienes vehículos cargados</h2>
 
+  <div class="container-vehicles" *ngFor="let v of vehicles">
+    <div class="image">
+      <img [src]="v.image" [alt]="v.marca" />
+    </div>
+    <div class="info-vehicle">
+      <h2>{{v.marca}} {{v.modelo}}</h2>
+      <div class="data">
+        <p>Año: {{v.ano}}</p>
+        <p>Patente: {{v.patente}}</p>
+        <p>Tipo: {{v.tipo}}</p>
+      </div>
+    </div>
+  </div>
 
   <!--agregar vehiculo  -->
-<ion-fab vertical="bottom" horizontal="end" slot="fixed">
-  <ion-fab-button (click)="addUpdateCar()">
-    <ion-icon name="add"></ion-icon>
-  </ion-fab-button>
-</ion-fab>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addUpdateCar()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

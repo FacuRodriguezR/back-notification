@@ -12,7 +12,8 @@ export class CustomInputComponent  implements OnInit {
   @Input() label!: string;
   @Input() autocomplete!: string;
   @Input() icon!: string;
-
+@Input() isSelect = false;
+  @Input() options: { label: string, value: any }[] = [];
 
   isPassword!:boolean;
   hide: boolean = true;

@@ -1,3 +1,34 @@
-ion-fab-button{
-    --background: #41627c;
+ion-fab-button {
+  --background: #41627c;
+}
+
+.container-vehicles {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #41627c;
+  padding: 10px 0;
+  margin: 0 10px;
+  border-radius: 20px;
+  box-shadow: 1px 1px 5px rgb(0, 0, 0);
+  gap: 10px;
+  .image {
+    margin: 10px;
+    img {
+      width: 150px;
+      border-radius: 10px;
+      box-shadow: 1px 1px 2px rgb(47, 47, 47);
+    }
+  }
+  .info-vehicle {
+    margin: 10px;
+    h2 {
+      text-transform: capitalize;
+      font-size: 20px;
+      margin: 0px;
+    }
+    .data {
+      font-size: 14px;
+    }
+  }
 }

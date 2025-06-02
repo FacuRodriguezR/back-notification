@@ -1,8 +1,79 @@
 <app-header [isModal]="true"></app-header>
 
+<ion-content class="ion-padding">
+  <div class="form-container">
+    <form
+      class="ion-text-center"
+      [formGroup]="vehiculoForm"
+      (ngSubmit)="guardarVehiculo()"
+    >
+      <div class="imagen-vehiculo" *ngIf="vehiculoForm.value.image">
+        <img [src]="vehiculoForm.value.image" />
+      </div>
+      <ion-icon
+        class="image-icon"
+        *ngIf="!vehiculoForm.value.image"
+        name="car-outline"
+      ></ion-icon>
 
+      <ion-button
+        expand="block"
+        (click)="takeImage()"
+        mode="ios"
+        shape="round"
+        color="warning"
+      >
+        Tomar / Seleccionar
+      </ion-button>
 
-<div class="prueba">
+      <ion-item>
+        <ion-label position="floating">Marca</ion-label>
+        <ion-input formControlName="marca"></ion-input>
+      </ion-item>
 
-  <img src="../../../../assets/icon/Logo7.png" alt="" width="200px">
-</div>
+      <ion-item>
+        <ion-label position="floating">Modelo</ion-label>
+        <ion-input formControlName="modelo"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Año</ion-label>
+        <ion-input type="number" formControlName="ano"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Patente</ion-label>
+        <ion-input type="text" formControlName="patente"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Tipo</ion-label>
+        <ion-select formControlName="tipo" interface="popover">
+          <ion-select-option value="auto">Auto</ion-select-option>
+          <ion-select-option value="camioneta">Camioneta</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- 📷 Input de imagen -->
+      <!-- <ion-item lines="none">
+        <ion-label>Imagen</ion-label>
+        <input type="file" (change)="onImageSelected($event)" accept="image/*" />
+      </ion-item> -->
+
+      <!-- Previsualización de la imagen -->
+      <!-- <div *ngIf="imagenURL" class="preview">
+        <img [src]="imagenURL" alt="Vista previa" />
+      </div> -->
+
+      <ion-button
+        expand="block"
+        mode="ios"
+        shape="round"
+        color="warning"
+        type="submit"
+        [disabled]="vehiculoForm.invalid"
+      >
+        Guardar Vehículo
+      </ion-button>
+    </form>
+  </div>
+</ion-content>

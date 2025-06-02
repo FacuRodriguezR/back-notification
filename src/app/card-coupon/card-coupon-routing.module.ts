@@ -6,8 +6,8 @@ import { CardCouponPage } from './card-coupon.page';
 const routes: Routes = [
   {
     path: '',
-    component: CardCouponPage
-  }
+    component: CardCouponPage,
+  },
 ];
 
 @NgModule({

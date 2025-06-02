@@ -95,4 +95,54 @@ export class AuthPage implements OnInit {
 
   }
 
+  async loginWithGoogle() {
+    const loading = await this.utilsSvc.loading();
+    await loading.present();
+  
+    try {
+      const res = await this.firebaseSvc.signInWithGoogle();
+      if (res) {
+        // Verifica si el usuario ya existe en la base de datos
+        const userExists = await this.checkIfUserExists(res.user.uid);
+        
+        if (!userExists) {
+          // Crea el usuario en la base de datos si no existe
+          const path = `users/${res.user.uid}`;
+          const userData: Partial<User> = {
+            uid: res.user.uid,
+            email: res.user.email,
+            name: res.user.displayName,
+        
+           
+          };
+          
+          await this.firebaseSvc.setDocument(path, userData);
+        }
+        
+        this.getUserInfo(res.user.uid);
+      }
+    } catch (error) {
+      console.log(error);
+      this.utilsSvc.presentToast({
+        message: error.message,
+        duration: 2500,
+        color: 'danger',
+        position: 'middle',
+        icon: 'alert-circle-outline'
+      });
+    } finally {
+      loading.dismiss();
+    }
+  }
+  
+  async checkIfUserExists(uid: string): Promise<boolean> {
+    const path = `users/${uid}`;
+    const user = await this.firebaseSvc.getDocument(path);
+    return !!user;
+  }
+
+  
+
+  
+
 }

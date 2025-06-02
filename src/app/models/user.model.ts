@@ -1,3 +1,5 @@
+import { PushNotificationSchema } from '@capacitor/push-notifications';
+
 export interface User{
     uid: string,
     email: string,
@@ -7,4 +9,11 @@ export interface User{
     dni: string,
     level: number,
     token: string
+}
+
+// models/custom-notification.ts
+
+
+export interface CustomNotification extends PushNotificationSchema {
+  read?: boolean;
 }

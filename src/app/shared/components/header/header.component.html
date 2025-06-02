@@ -1,16 +1,30 @@
 <ion-header class="ion-no-border">
   <ion-toolbar class="header-toolbar">
     <ion-buttons slot="start">
-      <ion-back-button *ngIf="backButton" [defaultHref]="backButton"></ion-back-button>
+      <ion-back-button
+        *ngIf="backButton"
+        [defaultHref]="backButton"
+      ></ion-back-button>
 
       <ion-button *ngIf="isModal" (click)="dismissModal()">
         <ion-icon name="close-circle-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
 
-    <!-- <ion-title>{{title}}</ion-title> -->
     <div class="ion-text-center">
-      <img src="../../../../assets/icon/Logo9.png" alt="" width="150px">
+      <img src="../../../../assets/icon/Logo9.png" alt="" width="150px" />
     </div>
+
+    <ion-buttons slot="end" *ngIf="!isInLogin">
+      <ion-button (click)="openNotifications()">
+        <ion-icon name="notifications-outline"></ion-icon>
+        <ion-badge
+          *ngIf="notificationsCount > 0"
+          color="danger"
+          class="notif-badge"
+          >{{ notificationsCount }}</ion-badge
+        >
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>

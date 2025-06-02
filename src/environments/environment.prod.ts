@@ -8,7 +8,7 @@ export const environment = {
     messagingSenderId: "984920975373",
     appId: "1:984920975373:web:5bcdf935950ce48909cd44"
   },
-  baseUrl: 'http://localhost:3000/', 
+  baseUrl: 'https://notif-three.vercel.app/', 
   send_notification: 'send-notification',
   send_notification_to_level2: 'send-notification-to-level2',
   send_notification_to_level3: 'send-notification-to-level3',

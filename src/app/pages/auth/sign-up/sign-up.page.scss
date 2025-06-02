@@ -2,3 +2,13 @@ ion-button{
     --background: #2a6385;
     --background-hover: none;
 }
+
+.custom-select{
+    --background: #fff;
+    border-radius: 20px;
+    border: none;
+    color: #464646;
+    ion-label{
+
+    }
+}

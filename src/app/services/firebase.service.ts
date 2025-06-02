@@ -1,22 +1,63 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { User } from '../models/user.model';
-import { getAuth, updateProfile } from 'firebase/auth';
-import {getFirestore, setDoc, doc, getDoc, collection, collectionData, query, docData} from '@angular/fire/firestore'
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+  getAuth,
+  updateProfile,
+} from 'firebase/auth';
+import {
+  getFirestore,
+  setDoc,
+  doc,
+  getDoc,
+  collection,
+  collectionData,
+  query,
+  docData,
+  addDoc,
+} from '@angular/fire/firestore';
 import { UtilsService } from './utils.service';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import {
+  getStorage,
+  uploadString,
+  ref,
+  getDownloadURL,
+} from 'firebase/storage';
+import { initializeApp } from 'firebase/app';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FirebaseService {
+  uid: string;
+  private app: any;
 
+  constructor(
+    private afAuth: AngularFireAuth,
+    private firestore: AngularFirestore,
+    private utilsService: UtilsService,
+    private storage: AngularFireStorage
+  ) {
+    this.initializeFirebase();
+  }
 
-
-  constructor(private afAuth: AngularFireAuth, private firestore: AngularFirestore, private utilsService: UtilsService) {}
+  private initializeFirebase() {
+    try {
+      // Inicializa la app de Firebase solo si no existe
+      this.app = initializeApp(environment.firebaseConfig);
+      console.log('Firebase inicializado correctamente');
+    } catch (error) {
+      console.error('Error al inicializar Firebase:', error);
+    }
+  }
 
   // Autenticación
-  getAuth(){
+  getAuth() {
     return getAuth();
   }
 
@@ -28,55 +69,91 @@ export class FirebaseService {
   // --- Crear User ---
   signUp(user: User) {
     // Usa directamente AngularFireAuth para la autenticación
-    return this.afAuth.createUserWithEmailAndPassword(user.email, user.password);
+    return this.afAuth.createUserWithEmailAndPassword(
+      user.email,
+      user.password
+    );
   }
 
-    // --- Actualizar usuario ---
+  // --- Actualizar usuario ---
 
-    updateUser(displayName: string) {
-      return this.afAuth.currentUser.then(user => {
-        if (user) {
-          return updateProfile(user, { displayName });
-        } else {
-          throw new Error("No hay un usuario autenticado.");
-        }
-      });
-    }
+  updateUser(displayName: string) {
+    return this.afAuth.currentUser.then((user) => {
+      if (user) {
+        return updateProfile(user, { displayName });
+      } else {
+        throw new Error('No hay un usuario autenticado.');
+      }
+    });
+  }
 
-    sendRecoveryEmail(email: string){
-      return this.afAuth.sendPasswordResetEmail(email);
-    }
+  // FirebaseService
 
-    getCollectionData(path: string, collectionQuery?: any) {
-      const ref = collection(getFirestore(), path);
-      return collectionData(query(ref, ...collectionQuery), { idField: 'id' });
-    }
+  // addVehiculo(vehiculo: any, uid: string) {
+  //   const id = this.firestore.createId();
 
-    getDocData(path: string) {
-      const ref = doc(getFirestore(), path);
-      return docData(ref, { idField: 'id' });
-    }
-    
-    // Base de datos
-    
-    
-    // setear un doc---
+  //   console.log(uid)
+  //   return this.setDocument(`users/${uid}/vehiculos/${id}`, { id, ...vehiculo });
+  // }
 
-    setDocument( path: string, data: any){
-      return setDoc(doc(getFirestore(), path), data)
-    }
+  addVehiculo(path: string, data: any) {
+    return addDoc(collection(getFirestore(), path), data);
+  }
 
-    // obtener un documento
+  async uploadImage(path: string, data_url: string) {
+    return uploadString(ref(getStorage(), path), data_url, 'data_url').then(
+      () => {
+        return getDownloadURL(ref(getStorage(), path));
+      }
+    );
+  }
 
-    async getDocument(path: string){
-      return (await getDoc(doc(getFirestore(), path))).data();
-    }
+  sendRecoveryEmail(email: string) {
+    return this.afAuth.sendPasswordResetEmail(email);
+  }
 
-    // sign-out
+  getCollectionData(path: string, collectionQuery?: any) {
+    const ref = collection(getFirestore(), path);
+    return collectionData(query(ref, collectionQuery), { idField: 'id' });
+  }
 
-    signOut(){
+  getDocData(path: string) {
+    const ref = doc(getFirestore(), path);
+    return docData(ref, { idField: 'id' });
+  }
+
+  // Base de datos
+
+  // setear un doc---
+
+  setDocument(path: string, data: any) {
+    return setDoc(doc(getFirestore(), path), data);
+  }
+
+  // obtener desde una colecion
+
+  // obtener un documento
+
+  async getDocument(path: string) {
+    return (await getDoc(doc(getFirestore(), path))).data();
+  }
+
+  // sign-out
+
+  signOut() {
     this.afAuth.signOut();
-      localStorage.removeItem('user');
-      this.utilsService.routerLink('/auth');
+    localStorage.removeItem('user');
+    this.utilsService.routerLink('/auth');
+  }
+
+  async signInWithGoogle() {
+    try {
+      const provider = new GoogleAuthProvider();
+      const auth = getAuth();
+      return await signInWithPopup(auth, provider);
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
+  }
 }
