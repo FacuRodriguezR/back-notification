@@ -12,6 +12,8 @@ import { UtilsService } from 'src/app/services/utils.service';
   styleUrls: ['./sign-up.page.scss'],
 })
 export class SignUpPage implements OnInit {
+  currentStep = 1;
+
   form = new FormGroup({
     uid: new FormControl(''),
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -25,7 +27,7 @@ export class SignUpPage implements OnInit {
     dni: new FormControl('', [
       Validators.required,
       Validators.minLength(7),
-      Validators.maxLength(8),
+      Validators.maxLength(11),
     ]),
     token: new FormControl(localStorage.getItem('token')),
     points: new FormControl(0),
@@ -36,8 +38,10 @@ export class SignUpPage implements OnInit {
     ]),
     gender: new FormControl('', [Validators.required]),
     province: new FormControl('', [Validators.required]),
-    locality: new FormControl('', [Validators.required]),
+
     dateBirth: new FormControl('', [Validators.required]),
+    tieneConvenio: new FormControl(false),
+    codigoEmpresa: new FormControl(''),
   });
 
   firebaseSvc = inject(FirebaseService);
@@ -76,7 +80,49 @@ export class SignUpPage implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.form.get('tieneConvenio')?.valueChanges.subscribe((valor) => {
+      const codigoEmpresaControl = this.form.get('codigoEmpresa');
+      if (valor) {
+        codigoEmpresaControl?.setValidators([Validators.required]);
+      } else {
+        codigoEmpresaControl?.clearValidators();
+      }
+      codigoEmpresaControl?.updateValueAndValidity();
+    });
+  }
+
+  get formStep1() {
+    return new FormGroup({
+      email: this.form.get('email'),
+      dateBirth: this.form.get('dateBirth'),
+      name: this.form.get('name'),
+      surname: this.form.get('surname'),
+      dni: this.form.get('dni'),
+      gender: this.form.get('gender'),
+    });
+  }
+
+  get formStep2() {
+    return new FormGroup({
+      telephone: this.form.get('telephone'),
+
+      province: this.form.get('province'),
+      tieneConvenio: this.form.get('tieneConvenio'),
+      codigoEmpresa: this.form.get('codigoEmpresa'),
+      password: this.form.get('password'),
+    });
+  }
+
+  nextStep() {
+    if (this.currentStep === 1 && this.formStep1.valid) {
+      this.currentStep = 2;
+    }
+  }
+
+  prevStep() {
+    this.currentStep = 1;
+  }
 
   async submit() {
     if (this.form.valid) {

@@ -6,4 +6,5 @@ export interface Vehicle {
   modelo: string;
   patente: string;
   tipo: string;
+  imagePath?: string;
 }

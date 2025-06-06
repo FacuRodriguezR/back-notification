@@ -49,41 +49,47 @@ export class AddUpdateComponent implements OnInit {
 
   async guardarVehiculo() {
     if (this.vehiculoForm.valid) {
-      let path = `users/${this.uid}/vehiculos`;
+      const path = `users/${this.uid}/vehiculos`;
       const loading = await this.utilsService.loading();
       await loading.present();
 
-      let dataUrl = this.vehiculoForm.value.image;
-      let imagePath = `${this.uid}/${Date.now()}`;
-      let imageUrl = await this.firebaseService.uploadImage(imagePath, dataUrl);
+      try {
+        const dataUrl = this.vehiculoForm.value.image;
+        const imagePath = `${path}/${Date.now()}`;
+        const imageUrl = await this.firebaseService.uploadImage(
+          imagePath,
+          dataUrl
+        );
 
-      this.firebaseService
-        .addVehiculo(path, this.vehiculoForm.value)
-        .then((res) => {
-          this.utilsService.dismissModal({ success: true });
+        const vehiculoData = {
+          ...this.vehiculoForm.value,
+          imageUrl,
+          imagePath,
+        };
 
-          this.utilsService.presentToast({
-            message: 'Producto creado exitosamente',
-            duration: 2500,
-            color: 'success',
-            position: 'middle',
-            icon: 'checkmark-circle-outline',
-          });
-        })
-        .catch((error) => {
-          console.log(error);
+        await this.firebaseService.addVehiculo(path, vehiculoData);
 
-          this.utilsService.presentToast({
-            message: error.message,
-            duration: 2500,
-            color: 'danger',
-            position: 'middle',
-            icon: 'alert-circle-outline',
-          });
-        })
-        .finally(() => {
-          loading.dismiss();
+        this.utilsService.dismissModal({ success: true });
+
+        this.utilsService.presentToast({
+          message: 'Vehículo creado exitosamente',
+          duration: 2500,
+          color: 'success',
+          position: 'middle',
+          icon: 'checkmark-circle-outline',
         });
+      } catch (error) {
+        console.error(error);
+        this.utilsService.presentToast({
+          message: error.message,
+          duration: 2500,
+          color: 'danger',
+          position: 'middle',
+          icon: 'alert-circle-outline',
+        });
+      } finally {
+        loading.dismiss();
+      }
     }
   }
 }

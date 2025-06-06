@@ -7,6 +7,8 @@
     [type]="type"
     [autocomplete]="autocomplete"
     [label]="label"
+    [inputmode]="inputmode"
+    [maxlength]="maxlength"
     [formControl]="control"
     label-placement="floating"
   ></ion-input>
@@ -18,19 +20,38 @@
     [placeholder]="label"
     interface="action-sheet"
   >
-    <ion-select-option *ngFor="let opt of options" [value]="opt.value">{{ opt.label }}</ion-select-option>
+    <ion-select-option *ngFor="let opt of options" [value]="opt.value">{{
+      opt.label
+    }}</ion-select-option>
   </ion-select>
 
-  <ion-button *ngIf="isPassword && !isSelect" (click)="showOrHidePassword()" slot="end" fill="clear" shape="round">
-    <ion-icon slot="icon-only" [name]="hide ? 'eye-outline' : 'eye-off-outline'"></ion-icon>  
+  <ion-button
+    *ngIf="isPassword && !isSelect"
+    (click)="showOrHidePassword()"
+    slot="end"
+    fill="clear"
+    shape="round"
+  >
+    <ion-icon
+      slot="icon-only"
+      [name]="hide ? 'eye-outline' : 'eye-off-outline'"
+    ></ion-icon>
   </ion-button>
 
   <!-- Validación de errores -->
   <div *ngIf="control.touched && control.invalid" class="validators">
     <div *ngIf="control.errors?.['required']">{{ label }} es requerido.</div>
-    <div *ngIf="control.errors?.['minlength']">{{ label }} debe tener al menos {{ control.errors?.['minlength'].requiredLength }} caracteres.</div>
-    <div *ngIf="control.errors?.['maxlength']">{{ label }} no puede tener más de {{ control.errors?.['maxlength'].requiredLength }} caracteres.</div>
-    <div *ngIf="control.errors?.['email']">Debe ingresar un correo electrónico válido.</div>
+    <div *ngIf="control.errors?.['minlength']">
+      {{ label }} debe tener al menos
+      {{ control.errors?.['minlength'].requiredLength }} caracteres.
+    </div>
+    <div *ngIf="control.errors?.['maxlength']">
+      {{ label }} no puede tener más de
+      {{ control.errors?.['maxlength'].requiredLength }} caracteres.
+    </div>
+    <div *ngIf="control.errors?.['email']">
+      Debe ingresar un correo electrónico válido.
+    </div>
     <!-- Puedes agregar más tipos de errores aquí según sea necesario -->
   </div>
 </ion-item>

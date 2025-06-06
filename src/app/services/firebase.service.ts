@@ -18,6 +18,8 @@ import {
   query,
   docData,
   addDoc,
+  updateDoc,
+  deleteDoc,
 } from '@angular/fire/firestore';
 import { UtilsService } from './utils.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
@@ -26,6 +28,7 @@ import {
   uploadString,
   ref,
   getDownloadURL,
+  deleteObject,
 } from 'firebase/storage';
 import { initializeApp } from 'firebase/app';
 import { environment } from 'src/environments/environment';
@@ -130,12 +133,55 @@ export class FirebaseService {
     return setDoc(doc(getFirestore(), path), data);
   }
 
+  updateDocument(path: string, data: any) {
+    return updateDoc(doc(getFirestore(), path), data);
+  }
+  deleteDocument(path: string, data: any) {
+    return deleteDoc(doc(getFirestore(), path));
+  }
+
   // obtener desde una colecion
+
+  async getFilePath(url: string) {
+    return ref(getStorage(), url).fullPath;
+  }
 
   // obtener un documento
 
   async getDocument(path: string) {
     return (await getDoc(doc(getFirestore(), path))).data();
+  }
+
+  // eliminar product
+
+  async deleteDocumentByField(
+    path: string,
+    field: string,
+    value: any
+  ): Promise<void> {
+    const snapshot = await this.firestore
+      .collection(path, (ref) => ref.where(field, '==', value))
+      .get()
+      .toPromise();
+
+    const batch = this.firestore.firestore.batch();
+    snapshot?.forEach((doc) => {
+      batch.delete(doc.ref);
+    });
+
+    await batch.commit();
+  }
+
+  async deleteFileFromStorage(path: string): Promise<void> {
+    const storage = getStorage();
+    const fileRef = ref(storage, path);
+
+    try {
+      await deleteObject(fileRef);
+    } catch (error) {
+      console.warn('No se pudo eliminar la imagen:', error);
+      // Podés decidir si esto detiene el flujo o solo muestra una advertencia
+    }
   }
 
   // sign-out

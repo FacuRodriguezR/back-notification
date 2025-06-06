@@ -29,7 +29,8 @@ export class UtilsService {
     private loadingController: LoadingController,
     private toastController: ToastController,
     private router: Router,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private alertController: AlertController
   ) {}
 
   loading() {
@@ -155,5 +156,32 @@ export class UtilsService {
 
   private loadNotifications(): CustomNotification[] {
     return JSON.parse(localStorage.getItem('notifications') || '[]');
+  }
+
+  async presentAlertConfirm(opts: {
+    header: string;
+    message: string;
+    confirmText?: string;
+    cancelText?: string;
+  }): Promise<boolean> {
+    return new Promise(async (resolve) => {
+      const alert = await this.alertController.create({
+        header: opts.header,
+        message: opts.message,
+        buttons: [
+          {
+            text: opts.cancelText || 'Cancelar',
+            role: 'cancel',
+            handler: () => resolve(false),
+          },
+          {
+            text: opts.confirmText || 'Aceptar',
+            handler: () => resolve(true),
+          },
+        ],
+      });
+
+      await alert.present();
+    });
   }
 }

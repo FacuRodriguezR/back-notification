@@ -4,6 +4,7 @@
       <ion-back-button
         *ngIf="backButton"
         [defaultHref]="backButton"
+        class="textwhite"
       ></ion-back-button>
 
       <ion-button *ngIf="isModal" (click)="dismissModal()">
@@ -17,7 +18,7 @@
 
     <ion-buttons slot="end" *ngIf="!isInLogin">
       <ion-button (click)="openNotifications()">
-        <ion-icon name="notifications-outline"></ion-icon>
+        <ion-icon class="textwhite" name="notifications-outline"></ion-icon>
         <ion-badge
           *ngIf="notificationsCount > 0"
           color="danger"

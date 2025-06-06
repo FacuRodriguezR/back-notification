@@ -1,0 +1,36 @@
+.custom-input {
+  --background: #fff;
+  --border-color: #e0e0e0;
+  --border-radius: 15px;
+  --border-style: solid;
+  --border-width: 1px;
+  color: #464646;
+  margin: 20px 0;
+
+  ion-label {
+    position: relative;
+    bottom: 2px;
+    --color: #464646 !important; // Color por defecto
+    --color-focused: #464646 !important; // Color cuando flota (input enfocado)
+    color: #464646 !important; // Asegura color heredado
+  }
+  ion-label.label-floating {
+    color: green !important;
+  }
+  // También podemos reforzar con esto si Ionic no aplica correctamente los props anteriores
+  ion-label.sc-ion-label-md-h,
+  ion-label.sc-ion-label-ios-h {
+    color: #464646 !important;
+  }
+
+  ion-input,
+  ion-select {
+    --color: #464646;
+    --placeholder-color: #a0a0a0;
+  }
+
+  .eye-icon {
+    position: relative;
+    top: 13px;
+  }
+}

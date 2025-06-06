@@ -1,19 +1,28 @@
 <app-header title="Home" backButton="/main/home"></app-header>
 
 <ion-content [fullscreen]="true">
-  <h2 class="ion-padding">Tus vehiculos</h2>
-  <h2 class="ion-padding">No tienes vehículos cargados</h2>
+  <h2 class="ion-padding" *ngIf="vehicles.length > 0">Tus vehiculos</h2>
+  <h2 class="ion-padding" *ngIf="vehicles.length === 0">
+    No tienes vehículos cargados
+  </h2>
 
   <div class="container-vehicles" *ngFor="let v of vehicles">
+    <!-- Icono de eliminar en la esquina superior derecha -->
+    <ion-icon
+      name="trash-outline"
+      class="delete-icon"
+      (click)="deleteVehicle(v)"
+    ></ion-icon>
+
     <div class="image">
       <img [src]="v.image" [alt]="v.marca" />
     </div>
     <div class="info-vehicle">
-      <h2>{{v.marca}} {{v.modelo}}</h2>
+      <h2>{{ v.marca }} {{ v.modelo }}</h2>
       <div class="data">
-        <p>Año: {{v.ano}}</p>
-        <p>Patente: {{v.patente}}</p>
-        <p>Tipo: {{v.tipo}}</p>
+        <p>Año: {{ v.ano }}</p>
+        <p>Patente: {{ v.patente }}</p>
+        <p>Tipo: {{ v.tipo }}</p>
       </div>
     </div>
   </div>
